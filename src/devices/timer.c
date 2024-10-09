@@ -88,10 +88,10 @@ void timer_sleep(int64_t ticks)
 {
   struct thread *currThread = thread_current();
   enum intr_level prevLevel = intr_disable();
-  thread_block();
 
-  int64_t start = timer_ticks();
   currThread->ticksLeft = ticks;
+
+  thread_block();
   intr_set_level(prevLevel);
 }
 
@@ -162,7 +162,6 @@ void timer_print_stats(void)
 static void
 manage_thread(struct thread *t, void *aux)
 {
-
   t->ticksLeft--;
   if (t->ticksLeft <= 0 && t->status == THREAD_BLOCKED)
   {
