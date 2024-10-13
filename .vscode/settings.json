@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "*.ejs": "html",
+    "__mutex_base": "c",
+    "mutex": "c"
+  }
+}
