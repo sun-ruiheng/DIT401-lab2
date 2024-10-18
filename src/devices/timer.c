@@ -90,6 +90,7 @@ void timer_sleep(int64_t ticks)
   enum intr_level prevLevel = intr_disable();
 
   currThread->ticksLeft = ticks;
+  currThread->sleeping = true;
 
   thread_block();
   intr_set_level(prevLevel);
@@ -163,8 +164,9 @@ static void
 manage_thread(struct thread *t, void *aux)
 {
   t->ticksLeft--;
-  if (t->ticksLeft <= 0 && t->status == THREAD_BLOCKED)
+  if (t->ticksLeft <= 0 && t->status == THREAD_BLOCKED && t->sleeping)
   {
+    t->sleeping = false;
     thread_unblock(t);
   }
 }
